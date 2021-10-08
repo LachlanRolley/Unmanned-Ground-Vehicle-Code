@@ -14,9 +14,11 @@ using namespace System;
 using namespace System::Net::Sockets;
 using namespace System::Net;
 using namespace System::Text;
+using namespace System::Diagnostics;
+using namespace System::Threading;
 
-#define NUM_UNITS 3 // yo this number should be how many processes we have made, if only gps, set to 1
-
+#define NUM_UNITS 4 // yo this number should be how many processes we have made, if only gps, set to 1
+void keepNoncritRunning();
 bool IsProcessRunning(const char* processName);
 void StartProcesses();
 
@@ -34,8 +36,39 @@ TCHAR Units[10][20] = //
 int main()
 {
 	//start all 5 modules
-	StartProcesses();
+	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
+
+	//practicing Shared memory
+	//practicing Shared memory
+
+
+
+
+
+
+
+
+
+
+
+
+
+	while (1) {
+		// StartProcesses();  // this will reopen anything that is closed
+		//keepNoncritRunning();
+		Sleep(1000);
+	}
 	return 0;
+}
+
+void keepNoncritRunning() {        // this just checks if somthing is running         use (const char*)Units[1]   and we can cycle through the array to reopoen stuff
+	bool i = IsProcessRunning((const char*)Units[1]);
+	if (i) {
+		printf("cams running\n");
+	}
+	else{
+		printf("cams dead\n");
+	}
 }
 
 
@@ -74,7 +107,7 @@ void StartProcesses()
 			if (!CreateProcess(NULL, Units[i], NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &s[i], &p[i]))
 			{
 				printf("%s failed (%d).\n", Units[i], GetLastError());
-				_getch();
+				//_getch();
 			}
 			std::cout << "Started: " << Units[i] << std::endl;
 			Sleep(100);
