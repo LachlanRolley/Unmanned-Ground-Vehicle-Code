@@ -37,6 +37,8 @@
 
 #include "Messages.hpp"
 #include "HUD.hpp"
+#include "SMStructs.h"
+#include "SMObject.h"
 
 void display();
 void reshape(int width, int height);

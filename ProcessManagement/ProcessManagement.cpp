@@ -17,7 +17,7 @@ using namespace System::Text;
 using namespace System::Diagnostics;
 using namespace System::Threading;
 
-#define NUM_UNITS 4 // yo this number should be how many processes we have made, if only gps, set to 1
+#define NUM_UNITS 5 // yo this number should be how many processes we have made, if only gps, set to 1
 void keepNoncritRunning();
 bool IsProcessRunning(const char* processName);
 void StartProcesses();
@@ -39,7 +39,15 @@ int main()
 	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
 
 	//practicing Shared memory
-	//practicing Shared memory
+	
+	//declaring the shared mem, not creating
+	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));   
+	
+	//creatng the shared mem
+	PMObj.SMCreate();									//quick thing about shared mem, Start by making an object but make it the size of the thing u want in smStructs
+	PMObj.SMAccess();
+
+	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
 
 
 
@@ -50,14 +58,14 @@ int main()
 
 
 
-
-
-
-	while (1) {
+	while (!_kbhit()) {
 		// StartProcesses();  // this will reopen anything that is closed
 		//keepNoncritRunning();
-		Sleep(1000);
+		Thread::Sleep(1000);
 	}
+
+	PMData->Shutdown.Status = 0xFF;                          // USE SHARE MEMORY TO EDIT SHUTDOWN STATUS
+
 	return 0;
 }
 

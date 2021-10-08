@@ -10,6 +10,8 @@
 #include <GL/glut.h>
 
 #include <turbojpeg.h>
+#include "SMStructs.h"
+#include "SMObject.h"
 
 void display();
 void idle();
