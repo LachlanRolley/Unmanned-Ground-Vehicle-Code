@@ -36,7 +36,7 @@ TCHAR Units[10][20] = //
 int main()
 {
 	//start all 5 modules
-	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
+	
 
 	//practicing Shared memory
 	
@@ -52,7 +52,7 @@ int main()
 
 
 
-
+	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
 
 
 

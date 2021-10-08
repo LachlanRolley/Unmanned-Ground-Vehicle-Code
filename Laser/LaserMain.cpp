@@ -26,7 +26,7 @@ int main(void) {
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));    
 
 	//creatng the shared mem
-	PMObj.SMCreate();
+	
 	PMObj.SMAccess();
 
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
