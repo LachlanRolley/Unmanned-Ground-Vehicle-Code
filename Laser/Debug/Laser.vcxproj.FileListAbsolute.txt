@@ -1,1 +1,2 @@
 C:\Users\rolle\source\repos\UGV_Assignment\Laser\Debug\Laser.vcxproj.AssemblyReference.cache
+\\Client\C$\Users\rolle\source\repos\UGV_Assignment\Laser\Debug\Laser.vcxproj.AssemblyReference.cache
