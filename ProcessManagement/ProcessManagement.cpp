@@ -70,7 +70,8 @@ int main()
 		Thread::Sleep(1000);
 	}
 
-	PMData->Shutdown.Status = 0xFF;                          // USE SHARE MEMORY TO EDIT SHUTDOWN STATUS
+	PMData->Shutdown.Status = 0xFF;  // USE SHARE MEMORY TO EDIT SHUTDOWN STATUS
+	
 
 	return 0;
 }

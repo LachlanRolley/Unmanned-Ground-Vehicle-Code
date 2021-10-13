@@ -118,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\SMObject.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GPSMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #using <System.dll>
+#include "GPS.h"
 #include "SMStructs.h"
 #include "SMObject.h"
 #include <Windows.h>
@@ -21,18 +22,18 @@ using namespace System::Threading;
 
 
 int main() {
-
+	
 
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
 	while (1) {
 		printf("im alive !\n");
 		Sleep(100);

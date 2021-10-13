@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 	subscriber.connect("tcp://192.168.1.200:26000");
 	subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 
-	glutMainLoop();
+	glutMainLoop(); // this will never return
 
 	return 1;
 }

@@ -25,31 +25,90 @@ int main(void) {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
-	
-	
-	
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));    
-
-	////creatng the shared mem
-	//
 	PMObj.SMAccess();
-
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 	double TimeStamp;
 	__int64 Frequency, Counter;
 	int Shutdown = 0x00;
 	ConsoleKeyInfo keyHit;
 	
-
 	QueryPerformanceFrequency((LARGE_INTEGER*)&Frequency);  // guessing this asks windows the frequncy of ure pc clock speed then chucks in freq
 	
 
 
+
+	//get the laser data
+	
+
+
+
+	// LMS151 port number must be 2111
+	int PortNumber = 2111;
+	// Pointer to TcpClent type object on managed heap
+	TcpClient^ Client;
+	// arrays of unsigned chars to send and receive data
+	array<unsigned char>^ SendData;
+	array<unsigned char>^ ReadData;
+	// String command to ask for Channel 1 analogue voltage from the PLC
+	// These command are available on Galil RIO47122 command reference manual
+	// available online
+	String^ AskScan = gcnew String("sRN LMDscandata");
+	// String to store received data for display
+	String^ ResponseData;                                                                    // all the stuff we recieve is in Responce data. Note it is GC
+
+	// Creat TcpClient object and connect to it
+	Client = gcnew TcpClient("192.168.5.8", PortNumber);
+	// Configure connection
+	Client->NoDelay = true;
+	Client->ReceiveTimeout = 500;//ms
+	Client->SendTimeout = 500;//ms
+	Client->ReceiveBufferSize = 1024;
+	Client->SendBufferSize = 1024;
+
+	// unsigned char arrays of 16 bytes each are created on managed heap
+	SendData = gcnew array<unsigned char>(16);
+	ReadData = gcnew array<unsigned char>(2500);
+	// Convert string command to an array of unsigned char
+	SendData = System::Text::Encoding::ASCII->GetBytes(AskScan);
+
+
+	// Get the network streab object associated with clien so we 
+	// can use it to read and write
+	NetworkStream^ Stream = Client->GetStream();
+
+
+	//Loop
+	while (!_kbhit())
+	{
+		// Write command asking for data
+		Stream->WriteByte(0x02);
+		Stream->Write(SendData, 0, SendData->Length);
+		Stream->WriteByte(0x03);
+		// Wait for the server to prepare the data, 1 ms would be sufficient, but used 10 ms
+		System::Threading::Thread::Sleep(10);
+		// Read the incoming data
+		Stream->Read(ReadData, 0, ReadData->Length);
+		// Convert incoming data from an array of unsigned char bytes to an ASCII string
+		ResponseData = System::Text::Encoding::ASCII->GetString(ReadData);
+		// Print the received string on the screen
+		Console::WriteLine(ResponseData);     //look at pg 93
+	}
+
+	Stream->Close();
+	Client->Close();
+
+	Console::ReadKey();
+	Console::ReadKey();
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	while (1) {
 		//printf("im alive !\n");
@@ -61,18 +120,13 @@ int main(void) {
 			break;
 		}
 		if (_kbhit()) { // doesnt actually check what key hit hit, need to getchar it
-			
 			//char c = getchar();                       //this works but not what u want cos u need to press enter after key press
 			//printf("peace brother, you pressed %c", c);
 			break;
 		}
 		
 	}
-	keyHit = Console::ReadKey();
-
-	while (1) {
-
-	}
+	
 	return 0;
 
 }
