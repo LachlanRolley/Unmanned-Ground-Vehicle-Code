@@ -38,7 +38,7 @@ int main()
 {
 
 	
-
+	int yaba = 2;
 	
 
 	//start all 5 modules
