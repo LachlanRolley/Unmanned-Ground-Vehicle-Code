@@ -33,8 +33,14 @@ TCHAR Units[10][20] = //
 	TEXT("VehicleControl.exe")
 };
 
+
 int main()
 {
+
+	
+
+	
+
 	//start all 5 modules
 	
 
@@ -55,7 +61,7 @@ int main()
 	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
 
 
-
+	
 
 
 	while (!_kbhit()) {
