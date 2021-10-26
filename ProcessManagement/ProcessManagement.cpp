@@ -85,15 +85,6 @@ int main()
 	}
 
 
-
-	
-
-
-
-
-	
-
-
 	while (!_kbhit()) {
 
 

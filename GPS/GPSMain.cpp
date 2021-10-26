@@ -1,3 +1,4 @@
+#pragma pack(1)
 #using <System.dll>
 #include "GPS.h"
 #include "SMStructs.h"
