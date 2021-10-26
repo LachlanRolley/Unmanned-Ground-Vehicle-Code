@@ -27,7 +27,6 @@ int main(int argc, char** argv)
 	//Define window size
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
-
 	//GL Window setup
 	glutInit(&argc, (char**)(argv));
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
@@ -42,8 +41,11 @@ int main(int argc, char** argv)
 	//Socket to talk to server
 	subscriber.connect("tcp://192.168.1.200:26000");
 	subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
+	
 
 	glutMainLoop(); // this will never return
+	
+
 
 	return 1;
 }

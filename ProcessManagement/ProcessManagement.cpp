@@ -33,6 +33,15 @@ TCHAR Units[10][20] = //
 	TEXT("VehicleControl.exe")
 };
 
+value struct UGVProcesses
+{
+	String^ ModuleName;
+	int Critical;
+	int CrashCount;
+	int CrashCountLimit;
+	Process^ ProcessName;
+};
+
 //C:\Users\z5162440\source\repos\UGV_Assignment\ProcessManagement\ProcessManagement.cpp
 int main()
 {
@@ -57,16 +66,51 @@ int main()
 
 
 
+	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
+	{
+		{"Laser", 1, 0, 10, gcnew Process},
+		{ "Display", 1, 0, 10, gcnew Process },
+		{ "VehicleControl", 1, 0, 10, gcnew Process },
+		{ "GPS",		0, 0, 10, gcnew Process },
+		{ "Camera",	0, 0, 10, gcnew Process },
 
-	StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
+	};
+
+	for (int i = 0; i < ProcessList->Length; i++) {
+		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
+			ProcessList[i].ProcessName = gcnew Process;
+			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+			ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
+			ProcessList[i].ProcessName->Start();
+			Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
+
+		}
+	}
+
+
+
+	//StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
+
+
 
 
 	
 
 
 	while (!_kbhit()) {
-		// StartProcesses();  // this will reopen anything that is closed
-		//keepNoncritRunning();
+		//check heartbeats
+			//itterate through all process
+				//is the heartbeat of proccess[i] up ?
+					//true -> put the bit for process[i] down and reset CrashCounter
+					//false increment heartbeat loss counter
+					// is the counter passed the limit ?
+						//true -> is it critical ?	
+							//true -> shutdown all
+							//false -> has process[i] exites the operating system (HasExited())
+								//true -> Start();
+								//false -> kill() start();
+						//false incriment counter for process[i]
+					
 		Thread::Sleep(1000);
 	}
 
