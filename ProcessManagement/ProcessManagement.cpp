@@ -46,7 +46,8 @@ value struct UGVProcesses
 int main()
 {
 
-	
+	printf("1\n");
+
 	
 	//declaring the shared mem, not creating
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));   
@@ -55,6 +56,7 @@ int main()
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
 
+	printf("2\n");
 
 
 
@@ -63,9 +65,9 @@ int main()
 	
 	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
 	{
-		{"Laser", 1, 0, 10, gcnew Process},
-		{ "Display", 1, 0, 10, gcnew Process },
-		{ "VehicleControl", 1, 0, 10, gcnew Process },
+		{"Laser", 0, 0, 10, gcnew Process}, //change back to critical after debugging
+		{ "Display", 0, 0, 10, gcnew Process }, //change back to critical after debugging
+		{ "VehicleControl", 0, 0, 10, gcnew Process }, //change back to critical after debugging
 		{ "GPS",		0, 0, 10, gcnew Process },
 		{ "Camera",	0, 0, 10, gcnew Process },
 
@@ -73,10 +75,18 @@ int main()
 
 	QueryPerformanceFrequency((LARGE_INTEGER*)&Frequency);
 
+	printf("3\n");
+
+
 	for (int i = 0; i < ProcessList->Length; i++) {
 		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
 			ProcessList[i].ProcessName = gcnew Process;
-			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";   // change this when working in lab
+			//C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
+			//H:\\mtrn2500\\Executables
+			
+			printf("4\n");
+
+			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";   // change this when working in lab     2 other places bellow
 			ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 			ProcessList[i].ProcessName->Start();
 			Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -127,8 +137,11 @@ int main()
 					else {
 						if (ProcessList[i].ProcessName->HasExited) {
 							//true -> Start();
+
+							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
+							//  H:\\mtrn2500\\Executables
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -139,8 +152,10 @@ int main()
 							//false -> kill() 
 							ProcessList[i].ProcessName->Kill();
 							//start();
+							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
+							//  H:\\mtrn2500\\Executables
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");

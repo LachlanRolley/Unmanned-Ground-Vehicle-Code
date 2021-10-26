@@ -24,7 +24,7 @@ using namespace System::Threading;
 
 int main() {
 	
-
+	printf("hello\n");
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
