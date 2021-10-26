@@ -122,6 +122,26 @@ int main(void) {
 		ResponseData = System::Text::Encoding::ASCII->GetString(ReadData);
 		// Print the received string on the screen
 		Console::WriteLine(ResponseData);
+
+		//ResponseData is a ascii string
+		array<wchar_t>^ Space = { ' ' };
+		array<String^>^ StringArray = ResponseData->Split(Space);
+
+		double StartAngle = System::Convert::ToInt32(StringArray[23], 16);
+		double Resolution = System::Convert::ToInt32(StringArray[24], 16)/10000.0;
+		int NumRanges = System::Convert::ToInt32(StringArray[25], 16);
+
+		array<double> ^Range = gcnew array<double>(NumRanges);
+		array<double> ^RangeX = gcnew array<double>(NumRanges);
+		array<double> ^RangeY = gcnew array<double>(NumRanges);
+
+		for (int i = 0; i < NumRanges; i++) {
+			Range[i] = System::Convert::ToInt32(StringArray[26 + i], 16);
+			RangeX[i] = Range[i] * sin(i * Resolution);
+			RangeY[i] = -Range[i] * cos(i * Resolution);
+		}
+
+		
 	}
 
 	Stream->Close();
