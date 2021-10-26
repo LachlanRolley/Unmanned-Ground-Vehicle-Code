@@ -29,15 +29,8 @@ int main() {
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
 	
-	
-	
-	
-	
-	
-	
 	while (1) {
 
-		
 		if (PMData->Heartbeat.Flags.GPS == 0) {
 			PMData->Heartbeat.Flags.GPS = 1;
 		}
@@ -47,12 +40,13 @@ int main() {
 		if (PMData->PMDownCount > 50) {
 			PMData->Shutdown.Status = 0xFF;
 		}
-
 		printf("im alive !\n");
 		Sleep(100);
 		if (PMData->Shutdown.Status) {
 			break;
 		}
+
+
 	}
 
 	return 0;
