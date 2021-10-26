@@ -35,7 +35,16 @@ int main() {
 
 	while (1) {
 
-		PMData->Heartbeat.Flags.VehicleControl = 1;
+		
+		if (PMData->Heartbeat.Flags.VehicleControl == 0) {
+			PMData->Heartbeat.Flags.VehicleControl = 1;
+		}
+		else {
+			PMData->PMDownCount++;
+		}
+		if (PMData->PMDownCount > 50) {
+			PMData->Shutdown.Status = 0xFF;
+		}
 
 		printf("im alive !\n");
 		Sleep(100);

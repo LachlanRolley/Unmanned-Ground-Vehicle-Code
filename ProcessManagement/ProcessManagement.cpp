@@ -96,9 +96,11 @@ int main()
 
 	while (!_kbhit()) {
 
+
 		QueryPerformanceCounter((LARGE_INTEGER*)&Counter);
 		PMData->PMTimeStamp = PMTimeStamp = (double)Counter / (double)Frequency * 1000.0; // ms
 		PMData->Ready = true;
+		PMData->PMDownCount = 0;
 		//check heartbeats
 			//itterate through all process
 			for(int i = 0; i < ProcessList->Length; i++){

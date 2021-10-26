@@ -58,9 +58,16 @@ int main(void) {
 			break;
 		}
 		
-		
-		PMData->Heartbeat.Flags.Laser = 1;
-		
+		//check if PM is doing its job
+		if (PMData->Heartbeat.Flags.Laser == 0) {
+			PMData->Heartbeat.Flags.Laser = 1;
+		}
+		else {
+			PMData->PMDownCount++;
+		}
+		if (PMData->PMDownCount > 50) {
+			PMData->Shutdown.Status = 0xFF;
+		}
 		
 	}
 	

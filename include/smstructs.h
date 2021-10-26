@@ -64,6 +64,7 @@ struct ProcessManagement
 	long int LifeCounter;
 	double PMTimeStamp;
 	bool Ready;
+	int PMDownCount = 0;
 };
 
 #define NONCRITICALMASK 0xff	//0 011 0000

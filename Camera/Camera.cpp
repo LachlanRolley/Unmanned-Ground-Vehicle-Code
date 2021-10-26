@@ -79,7 +79,16 @@ void idle()
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
 
-	PMData->Heartbeat.Flags.Camera = 1;
+	
+	if (PMData->Heartbeat.Flags.Camera == 0) {
+		PMData->Heartbeat.Flags.Camera = 1;
+	}
+	else {
+		PMData->PMDownCount++;
+	}
+	if (PMData->PMDownCount > 50) {
+		PMData->Shutdown.Status = 0xFF;
+	}
 
 
 	if (PMData->Shutdown.Status) {
