@@ -32,7 +32,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -83,7 +83,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(SoultionDir)\dll</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>GLU32.LIB;glut32.lib;jpeg.lib;jpeg-static.lib;libzmq-v120-mt-gd-4_0_4.lib;OPENGL32.LIB;turbojpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
