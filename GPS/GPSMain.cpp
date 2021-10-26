@@ -35,6 +35,9 @@ int main() {
 	
 	
 	while (1) {
+
+		PMData->Heartbeat.Flags.GPS = 1;
+
 		printf("im alive !\n");
 		Sleep(100);
 		if (PMData->Shutdown.Status) {

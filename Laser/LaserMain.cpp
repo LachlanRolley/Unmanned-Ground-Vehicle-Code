@@ -58,6 +58,10 @@ int main(void) {
 			break;
 		}
 		
+		
+		PMData->Heartbeat.Flags.Laser = 1;
+		
+		
 	}
 	
 	return 0;

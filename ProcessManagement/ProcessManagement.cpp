@@ -101,18 +101,65 @@ int main()
 		PMData->Ready = true;
 		//check heartbeats
 			//itterate through all process
+			for(int i = 0; i < ProcessList->Length; i++){
+				unsigned short checkmask = 1;      // we gona use this with an bitwise & to see if things are on
+				unsigned short ProcBeat = PMData->Heartbeat.Status >> i;  // with this the rightmost bit will alway be the specific heartbeat of the process
+				unsigned short check;
+				check = ProcBeat & checkmask;
 				//is the heartbeat of proccess[i] up ?
+				if(check == 1){
 					//true -> put the bit for process[i] down and reset CrashCounter
+					//Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe is ALIVE");
+					unsigned short BeatdownMask = 1 << i;
+					BeatdownMask = ~BeatdownMask;
+					//at this point we got a mask full of 1s execpt has a 0 in the heartbeat of this process
+					// just gota and it with heartbeat and it will only change this specific bit to 0;
+					PMData->Heartbeat.Status = PMData->Heartbeat.Status & BeatdownMask;
+					ProcessList[i].CrashCount = 0;
+				}
+				else {
 					//false increment heartbeat loss counter
-					// is the counter passed the limit ?
-						//true -> is it critical ?	
-							//true -> shutdown all
-							//false -> has process[i] exites the operating system (HasExited())
-								//true -> Start();
-								//false -> kill() start();
-						//false incriment counter for process[i]
-					
-		Thread::Sleep(1000);
+					//Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe is DEAD");
+					ProcessList[i].CrashCount++;
+				}
+				// is the counter passed the limit ?
+				if (ProcessList[i].CrashCount > ProcessList[i].CrashCountLimit) {
+					//true -> is it critical ?
+					if (ProcessList[i].Critical == 1) {
+						//true -> shutdown all
+						PMData->Shutdown.Status = 0xFF;
+						return 0;
+					}
+					//false -> has process[i] exited the operating system (HasExited())
+					else {
+						if (ProcessList[i].ProcessName->HasExited) {
+							//true -> Start();
+							ProcessList[i].ProcessName = gcnew Process;
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
+							ProcessList[i].ProcessName->Start();
+							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
+							ProcessList[i].CrashCount = 0;
+
+						}
+						else {
+							//false -> kill() 
+							ProcessList[i].ProcessName->Kill();
+							//start();
+							ProcessList[i].ProcessName = gcnew Process;
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
+							ProcessList[i].ProcessName->Start();
+							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
+							ProcessList[i].CrashCount = 0;
+
+						}
+					}
+				}										
+			}	
+
+
+		Thread::Sleep(100);
 	}
 
 	PMData->Shutdown.Status = 0xFF;  // USE SHARE MEMORY TO EDIT SHUTDOWN STATUS
