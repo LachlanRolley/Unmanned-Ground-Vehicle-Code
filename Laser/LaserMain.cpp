@@ -1,4 +1,4 @@
-#pragma pack(1)
+
 #using <System.dll>
 #include <Windows.h>
 #include <tchar.h>

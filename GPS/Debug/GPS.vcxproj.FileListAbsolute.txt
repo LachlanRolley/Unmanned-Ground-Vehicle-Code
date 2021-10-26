@@ -1,1 +1,2 @@
 C:\Users\rolle\source\repos\UGV_Assignment\GPS\Debug\GPS.vcxproj.AssemblyReference.cache
+\\Client\C$\Users\rolle\source\repos\UGV_Assignment\GPS\Debug\GPS.vcxproj.AssemblyReference.cache
