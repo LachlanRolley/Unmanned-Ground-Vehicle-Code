@@ -177,6 +177,14 @@ double getTime()
 
 void idle() {
 
+	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
+	PMObj.SMAccess();
+	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
+
+	if (PMData->Shutdown.Status) {
+		exit(0);
+	}
+
 	if (KeyManager::get()->isAsciiKeyPressed('a')) {
 		Camera::get()->strafeLeft();
 	}

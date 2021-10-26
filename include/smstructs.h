@@ -60,6 +60,8 @@ struct ProcessManagement
 	ExecFlags Heartbeat;
 	ExecFlags Shutdown;
 	long int LifeCounter;
+	double PMTimeStamp;
+	bool Ready;
 };
 
 #define NONCRITICALMASK 0xff	//0 011 0000

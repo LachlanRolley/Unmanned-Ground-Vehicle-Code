@@ -47,25 +47,20 @@ int main()
 {
 
 	
-	int yaba = 2;
-	
-
-	//start all 5 modules
-	
-
-	//practicing Shared memory
 	
 	//declaring the shared mem, not creating
 	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));   
-	
 	//creatng the shared mem
 	PMObj.SMCreate();									//quick thing about shared mem, Start by making an object but make it the size of the thing u want in smStructs
 	PMObj.SMAccess();
-
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
 
 
 
+
+	__int64 Counter, Frequency;
+	double PMTimeStamp;
+	
 	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
 	{
 		{"Laser", 1, 0, 10, gcnew Process},
@@ -75,6 +70,8 @@ int main()
 		{ "Camera",	0, 0, 10, gcnew Process },
 
 	};
+
+	QueryPerformanceFrequency((LARGE_INTEGER*)&Frequency);
 
 	for (int i = 0; i < ProcessList->Length; i++) {
 		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
@@ -89,7 +86,7 @@ int main()
 
 
 
-	//StartProcesses();  // yo mby change this to mimic lecture 2 so we dont have to clean up all the threads
+	
 
 
 
@@ -98,6 +95,10 @@ int main()
 
 
 	while (!_kbhit()) {
+
+		QueryPerformanceCounter((LARGE_INTEGER*)&Counter);
+		PMData->PMTimeStamp = PMTimeStamp = (double)Counter / (double)Frequency * 1000.0; // ms
+		PMData->Ready = true;
 		//check heartbeats
 			//itterate through all process
 				//is the heartbeat of proccess[i] up ?

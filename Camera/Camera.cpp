@@ -24,6 +24,11 @@ zmq::socket_t subscriber(context, ZMQ_SUB);
 
 int main(int argc, char** argv)
 {
+	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
+	PMObj.SMAccess();
+	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
+
+
 	//Define window size
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
@@ -70,6 +75,14 @@ void display()
 void idle()
 {
 
+	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
+	PMObj.SMAccess();
+	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
+
+	if (PMData->Shutdown.Status) {
+		exit(0);
+	}
+	
 	//receive from zmq
 	zmq::message_t update;
 	if (subscriber.recv(&update, ZMQ_NOBLOCK))
@@ -96,6 +109,9 @@ void idle()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 		delete[] buffer;
+		////////////////////////////////////////////////////////////////////////////////////////////
+		
+
 	}
 
 	display();
