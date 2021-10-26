@@ -76,7 +76,7 @@ int main()
 	for (int i = 0; i < ProcessList->Length; i++) {
 		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
 			ProcessList[i].ProcessName = gcnew Process;
-			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";   // change this when working in lab
 			ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 			ProcessList[i].ProcessName->Start();
 			Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
