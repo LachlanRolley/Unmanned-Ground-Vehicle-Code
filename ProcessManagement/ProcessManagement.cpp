@@ -81,12 +81,12 @@ int main()
 	for (int i = 0; i < ProcessList->Length; i++) {
 		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
 			ProcessList[i].ProcessName = gcnew Process;
-			//C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
-			//H:\\mtrn2500\\Executables
+			// C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
+			// H:\\mtrn2500\\Executables
 			
 			printf("4\n");
 
-			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";   // change this when working in lab     2 other places bellow
+			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";   // change this when working in lab     2 other places bellow
 			ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 			ProcessList[i].ProcessName->Start();
 			Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -141,7 +141,7 @@ int main()
 							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
 							//  H:\\mtrn2500\\Executables
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -155,7 +155,7 @@ int main()
 							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
 							//  H:\\mtrn2500\\Executables
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
