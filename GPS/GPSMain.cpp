@@ -37,10 +37,14 @@ int main() {
 		else {
 			PMData->PMDownCount++;
 		}
-		if (PMData->PMDownCount > 50) {
+		if (PMData->PMDownCount > 2000) {
+			for (int i = 0; i < 100; i++) printf("im setting shutdown flag\n");
+			while (1) {
+
+			}
 			PMData->Shutdown.Status = 0xFF;
 		}
-		printf("im alive !\n");
+		//printf("im alive !\n");
 		Sleep(100);
 		if (PMData->Shutdown.Status) {
 			break;

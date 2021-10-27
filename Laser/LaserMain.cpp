@@ -164,6 +164,10 @@ int main(void) {
 		//Console::WriteLine("Laser time stamp : {1,12:F3} {1:12:X2}", TimeStamp, Shutdown);
 		Sleep(25);
 		if (PMData->Shutdown.Status) {
+			printf("Shutdown flag given\n");
+			while (1) {
+
+			}
 			break;
 		}
 		if (_kbhit()) { // doesnt actually check what key hit hit, need to getchar it
@@ -180,7 +184,11 @@ int main(void) {
 		else {
 			PMData->PMDownCount++;
 		}
-		if (PMData->PMDownCount > 50) {
+		if (PMData->PMDownCount > 2000) {
+			for (int i = 0; i < 100; i++) printf("im setting shutdown flag\n");
+			while (1){
+
+			}
 			PMData->Shutdown.Status = 0xFF;
 		}
 

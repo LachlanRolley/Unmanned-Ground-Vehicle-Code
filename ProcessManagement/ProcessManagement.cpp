@@ -46,7 +46,7 @@ value struct UGVProcesses
 int main()
 {
 
-	printf("1\n");
+	
 
 	
 	//declaring the shared mem, not creating
@@ -56,7 +56,7 @@ int main()
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
 
-	printf("2\n");
+	
 
 
 
@@ -65,17 +65,17 @@ int main()
 	
 	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
 	{
-		{"Laser", 0, 0, 5000, gcnew Process}, //change back to critical after debugging       also change all the timeout counts
-		{ "Display1", 0, 0, 5000, gcnew Process }, //change back to critical after debugging
-		{ "VehicleControl", 0, 0, 5000, gcnew Process }, //change back to critical after debugging
-		{ "GPS",		0, 0, 5000, gcnew Process },
-		{ "Camera",	0, 0, 5000, gcnew Process },
+		{"Laser", 0, 0, 50, gcnew Process}, //change back to critical after debugging       also change all the timeout counts
+		{ "Display1", 0, 0, 50, gcnew Process }, //change back to critical after debugging
+		{ "VehicleControl", 0, 0, 50, gcnew Process }, //change back to critical after debugging
+		{ "GPS",		0, 0, 50, gcnew Process },
+		{ "Camera",	0, 0, 50, gcnew Process },
 
 	};
 
 	QueryPerformanceFrequency((LARGE_INTEGER*)&Frequency);
 
-	printf("3\n");
+	
 
 
 	for (int i = 0; i < ProcessList->Length; i++) {
@@ -135,6 +135,14 @@ int main()
 				// is the counter passed the limit ?
 				if (ProcessList[i].CrashCount > ProcessList[i].CrashCountLimit) {
 					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 50 times");
+					
+					
+					
+
+					
+
+
+
 					//true -> is it critical ?
 					if (ProcessList[i].Critical == 1) {
 						//true -> shutdown all
@@ -148,12 +156,13 @@ int main()
 					else {
 						if (ProcessList[i].ProcessName->HasExited) {
 							//true -> Start();
-
+							printf("1\n");
 							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Debug
 							//  H:\\mtrn2500\\Debug
-							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
-							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
+
+							//ProcessList[i].ProcessName = gcnew Process;
+							//ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
+							//ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
 							ProcessList[i].CrashCount = 0;
@@ -161,20 +170,31 @@ int main()
 						}
 						else {
 							//false -> kill() 
+							printf("2\n");
+
 							ProcessList[i].ProcessName->Kill();
 							//start();
 							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Debug
 							//  H:\\mtrn2500\\Debug
-							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
-							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
+							
+							//ProcessList[i].ProcessName = gcnew Process;
+							//ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
+							//ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
 							ProcessList[i].CrashCount = 0;
 
 						}
+
+
+						
 					}
-				}										
+
+					
+				}
+				if (ProcessList[i].CrashCount > 20) {
+					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 20 times");
+				}
 			}	
 
 

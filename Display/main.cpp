@@ -187,12 +187,16 @@ void idle() {
 	
 	if (PMData->Heartbeat.Flags.OpenGL == 0) {
 		PMData->Heartbeat.Flags.OpenGL = 1;
-		printf("setting heartbeat to 1 again\n");
+		//printf("setting heartbeat to 1 again\n");
 	}
 	else {
 		PMData->PMDownCount++;
 	}
-	if (PMData->PMDownCount > 50) {
+	if (PMData->PMDownCount > 2000) {
+		for (int i = 0; i < 100; i++) printf("im setting shutdown flag\n");
+		while (1) {
+
+		}
 		PMData->Shutdown.Status = 0xFF;
 		printf("I think PM is dead!\n");
 	}
