@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPS", "GPS\GPS.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Camera", "Camera\Camera.vcxproj", "{183FC127-2370-4576-8913-680A12CDACE6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display", "Display\Display.vcxproj", "{86BB9DF6-ECED-4065-9EE4-1A43F72AF540}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display1", "Display\Display.vcxproj", "{86BB9DF6-ECED-4065-9EE4-1A43F72AF540}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Laser", "Laser\Laser.vcxproj", "{54254354-1DF4-4F0C-A0A3-1E834F5B9D97}"
 EndProject

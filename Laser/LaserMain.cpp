@@ -37,6 +37,11 @@ int main(void) {
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
 
+	SMObject LaserObj(TEXT("smLaser"), sizeof(SM_Laser));								//quick thing about shared mem, Start by making an object but make it the size of the thing u want in smStructs
+	LaserObj.SMAccess();
+	SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
+
+
 	double TimeStamp;
 	__int64 Frequency, Counter;
 	int Shutdown = 0x00;
@@ -167,9 +172,9 @@ int main(void) {
 
 		for (int i = 0; i < NumRanges; i++) {
 			Range[i] = System::Convert::ToInt32(StringArray[26 + i], 16);
-			RangeX[i] = Range[i] * sin(i * Resolution);
-			RangeY[i] = -Range[i] * cos(i * Resolution);
-			Console::WriteLine("Range[" + i + "] is: " + RangeX[i] + " X,   " + Range[i] + "Y\n");
+			LaserData->x[i] = Range[i] * sin(i * Resolution);
+			LaserData->y[i] = -Range[i] * cos(i * Resolution);
+			Console::WriteLine("Range[" + i + "] is: " + LaserData->x[i] + " X,   " + LaserData->y[i] + "Y\n");
 		}
 
 		//Thread::Sleep(2000);

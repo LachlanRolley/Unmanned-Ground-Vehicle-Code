@@ -56,6 +56,13 @@ int main()
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
 
+
+	SMObject LaserObj(TEXT("smLaser"), sizeof(SM_Laser));
+	//creatng the shared mem
+	LaserObj.SMCreate();									//quick thing about shared mem, Start by making an object but make it the size of the thing u want in smStructs
+	LaserObj.SMAccess();
+	SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;	//then typecast the object into the correct type u want, like daughter class shit
+
 	
 
 
