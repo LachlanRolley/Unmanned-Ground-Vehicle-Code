@@ -31,9 +31,9 @@ using namespace System::Threading;
 int main(void) {
 	//declarations
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));    
+
+
+	SMObject PMObj(TEXT("processManagement"), sizeof(ProcessManagement));
 	PMObj.SMAccess();
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
 
@@ -41,9 +41,9 @@ int main(void) {
 	__int64 Frequency, Counter;
 	int Shutdown = 0x00;
 	ConsoleKeyInfo keyHit;
-	
+
 	QueryPerformanceFrequency((LARGE_INTEGER*)&Frequency);  // guessing this asks windows the frequncy of ure pc clock speed then chucks in freq
-	
+
 	while (!PMData->Ready) {
 		Thread::Sleep(25);
 	}
@@ -51,8 +51,8 @@ int main(void) {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/*
+
+
 	// LMS151 port number must be 2111
 	int PortNumber = 23000;
 	// Pointer to TcpClent type object on managed heap
@@ -99,9 +99,7 @@ int main(void) {
 	ResponseData = System::Text::Encoding::ASCII->GetString(ReadData);
 	Console::WriteLine(ResponseData);
 
-	while (!kbhit) {        //remove this
 
-	}
 
 
 	//tell the laser what u want
@@ -111,6 +109,37 @@ int main(void) {
 	//Loop
 	while (!_kbhit())
 	{
+		QueryPerformanceCounter((LARGE_INTEGER*)&Counter);
+		TimeStamp = (double)Counter / (double)Frequency * 1000; //ms
+		//Console::WriteLine("Laser time stamp : {1,12:F3} {1:12:X2}", TimeStamp, Shutdown);
+		Sleep(25);
+		if (PMData->Shutdown.Status) {
+			printf("Shutdown flag given\n");
+			break;
+		}
+		if (_kbhit()) { // doesnt actually check what key hit hit, need to getchar it
+			//char c = getchar();                       //this works but not what u want cos u need to press enter after key press
+			//printf("peace brother, you pressed %c", c);
+			break;
+		}
+
+		//check if PM is doing its job
+		if (PMData->Heartbeat.Flags.Laser == 0) {
+			PMData->Heartbeat.Flags.Laser = 1;
+			//printf("im now 1\n");
+		}
+		else {
+			PMData->PMDownCount++;
+		}
+		if (PMData->PMDownCount > 1000) {
+
+			PMData->Shutdown.Status = 0xFF;
+		}
+
+
+
+		//TCP Shit
+
 		// Write command asking for data
 		Stream->WriteByte(0x02);
 		Stream->Write(SendData, 0, SendData->Length);
@@ -122,41 +151,42 @@ int main(void) {
 		// Convert incoming data from an array of unsigned char bytes to an ASCII string
 		ResponseData = System::Text::Encoding::ASCII->GetString(ReadData);
 		// Print the received string on the screen
-		Console::WriteLine(ResponseData);
+		//Console::WriteLine(ResponseData);
 
 		//ResponseData is a ascii string
 		array<wchar_t>^ Space = { ' ' };
 		array<String^>^ StringArray = ResponseData->Split(Space);
 
 		double StartAngle = System::Convert::ToInt32(StringArray[23], 16);
-		double Resolution = System::Convert::ToInt32(StringArray[24], 16)/10000.0;
+		double Resolution = System::Convert::ToInt32(StringArray[24], 16) / 10000.0;
 		int NumRanges = System::Convert::ToInt32(StringArray[25], 16);
 
-		array<double> ^Range = gcnew array<double>(NumRanges);
-		array<double> ^RangeX = gcnew array<double>(NumRanges);
-		array<double> ^RangeY = gcnew array<double>(NumRanges);
+		array<double>^ Range = gcnew array<double>(NumRanges);
+		array<double>^ RangeX = gcnew array<double>(NumRanges);
+		array<double>^ RangeY = gcnew array<double>(NumRanges);
 
 		for (int i = 0; i < NumRanges; i++) {
 			Range[i] = System::Convert::ToInt32(StringArray[26 + i], 16);
 			RangeX[i] = Range[i] * sin(i * Resolution);
 			RangeY[i] = -Range[i] * cos(i * Resolution);
+			Console::WriteLine("Range[" + i + "] is: " + RangeX[i] + " X,   " + Range[i] + "Y\n");
 		}
 
-		
+		//Thread::Sleep(2000);
 	}
 
 	Stream->Close();
 	Client->Close();
 
-	Console::ReadKey();
-	Console::ReadKey();
-
-	*/
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
+
+	return 0;
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
 	while (1) {
 		//printf("im alive !\n");
 		QueryPerformanceCounter((LARGE_INTEGER*)&Counter);
@@ -172,7 +202,7 @@ int main(void) {
 			//printf("peace brother, you pressed %c", c);
 			break;
 		}
-		
+
 		//check if PM is doing its job
 		if (PMData->Heartbeat.Flags.Laser == 0) {
 			PMData->Heartbeat.Flags.Laser = 1;
@@ -182,7 +212,7 @@ int main(void) {
 			PMData->PMDownCount++;
 		}
 		if (PMData->PMDownCount > 1000) {
-			
+
 			PMData->Shutdown.Status = 0xFF;
 		}
 
@@ -192,9 +222,12 @@ int main(void) {
 		// too send write ascii, convert into binary then send
 		// recieve is the opposite
 
-		
+
 	}
-	
+
 	return 0;
 
+
+
+*/
 }
