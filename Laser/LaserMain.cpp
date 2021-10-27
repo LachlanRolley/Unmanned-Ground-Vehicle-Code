@@ -165,9 +165,6 @@ int main(void) {
 		Sleep(25);
 		if (PMData->Shutdown.Status) {
 			printf("Shutdown flag given\n");
-			while (1) {
-
-			}
 			break;
 		}
 		if (_kbhit()) { // doesnt actually check what key hit hit, need to getchar it
@@ -184,11 +181,8 @@ int main(void) {
 		else {
 			PMData->PMDownCount++;
 		}
-		if (PMData->PMDownCount > 2000) {
-			for (int i = 0; i < 100; i++) printf("im setting shutdown flag\n");
-			while (1){
-
-			}
+		if (PMData->PMDownCount > 1000) {
+			
 			PMData->Shutdown.Status = 0xFF;
 		}
 

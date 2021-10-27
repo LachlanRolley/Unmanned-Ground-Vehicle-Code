@@ -65,11 +65,11 @@ int main()
 	
 	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
 	{
-		{"Laser", 0, 0, 50, gcnew Process}, //change back to critical after debugging       also change all the timeout counts
-		{ "Display1", 0, 0, 50, gcnew Process }, //change back to critical after debugging
-		{ "VehicleControl", 0, 0, 50, gcnew Process }, //change back to critical after debugging
-		{ "GPS",		0, 0, 50, gcnew Process },
-		{ "Camera",	0, 0, 50, gcnew Process },
+		{"Laser", 1, 0, 20, gcnew Process}, //change back to critical after debugging       also change all the timeout counts
+		{ "Display1", 1, 0, 20, gcnew Process }, //change back to critical after debugging
+		{ "VehicleControl", 1, 0, 20, gcnew Process }, //change back to critical after debugging
+		{ "GPS",		0, 0, 20, gcnew Process },
+		{ "Camera",	0, 0, 20, gcnew Process },
 
 	};
 
@@ -134,7 +134,7 @@ int main()
 				}
 				// is the counter passed the limit ?
 				if (ProcessList[i].CrashCount > ProcessList[i].CrashCountLimit) {
-					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 50 times");
+					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 20 times");
 					
 					
 					
@@ -147,9 +147,6 @@ int main()
 					if (ProcessList[i].Critical == 1) {
 						//true -> shutdown all
 						PMData->Shutdown.Status = 0xFF;
-						while (!kbhit()) {
-
-						}
 						return 0;
 					}
 					//false -> has process[i] exited the operating system (HasExited())
@@ -192,9 +189,9 @@ int main()
 
 					
 				}
-				if (ProcessList[i].CrashCount > 20) {
-					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 20 times");
-				}
+				//if (ProcessList[i].CrashCount > 20) {
+				//	Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 20 times");
+				//}
 			}	
 
 
