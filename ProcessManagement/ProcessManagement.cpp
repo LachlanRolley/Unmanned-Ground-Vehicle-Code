@@ -65,11 +65,11 @@ int main()
 	
 	array<UGVProcesses>^ ProcessList = gcnew array<UGVProcesses>
 	{
-		{"Laser", 0, 0, 10, gcnew Process}, //change back to critical after debugging
-		{ "Display", 0, 0, 10, gcnew Process }, //change back to critical after debugging
-		{ "VehicleControl", 0, 0, 10, gcnew Process }, //change back to critical after debugging
-		{ "GPS",		0, 0, 10, gcnew Process },
-		{ "Camera",	0, 0, 10, gcnew Process },
+		{"Laser", 0, 0, 5000, gcnew Process}, //change back to critical after debugging       also change all the timeout counts
+		{ "Display1", 0, 0, 5000, gcnew Process }, //change back to critical after debugging
+		{ "VehicleControl", 0, 0, 5000, gcnew Process }, //change back to critical after debugging
+		{ "GPS",		0, 0, 5000, gcnew Process },
+		{ "Camera",	0, 0, 5000, gcnew Process },
 
 	};
 
@@ -81,12 +81,12 @@ int main()
 	for (int i = 0; i < ProcessList->Length; i++) {
 		if (Process::GetProcessesByName(ProcessList[i].ModuleName)->Length == 0) {
 			ProcessList[i].ProcessName = gcnew Process;
-			// C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
-			// H:\\mtrn2500\\Executables
+			// C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Debug
+			// H:\\mtrn2500\\Debug
 			
-			printf("4\n");
+			
 
-			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";   // change this when working in lab     2 other places bellow
+			ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";   // change this when working in lab     2 other places bellow
 			ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 			ProcessList[i].ProcessName->Start();
 			Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -123,14 +123,25 @@ int main()
 				else {
 					//false increment heartbeat loss counter
 					//Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe is DEAD");
+					
+					
+					
+					
+					
 					ProcessList[i].CrashCount++;
+
+
 				}
 				// is the counter passed the limit ?
 				if (ProcessList[i].CrashCount > ProcessList[i].CrashCountLimit) {
+					Console::WriteLine("The Process" + ProcessList[i].ModuleName + "hasnt responded over 50 times");
 					//true -> is it critical ?
 					if (ProcessList[i].Critical == 1) {
 						//true -> shutdown all
 						PMData->Shutdown.Status = 0xFF;
+						while (!kbhit()) {
+
+						}
 						return 0;
 					}
 					//false -> has process[i] exited the operating system (HasExited())
@@ -138,10 +149,10 @@ int main()
 						if (ProcessList[i].ProcessName->HasExited) {
 							//true -> Start();
 
-							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
-							//  H:\\mtrn2500\\Executables
+							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Debug
+							//  H:\\mtrn2500\\Debug
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");
@@ -152,10 +163,10 @@ int main()
 							//false -> kill() 
 							ProcessList[i].ProcessName->Kill();
 							//start();
-							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Executables
-							//  H:\\mtrn2500\\Executables
+							//  C:\\Users\\rolle\\source\\repos\\UGV_Assignment\\Debug
+							//  H:\\mtrn2500\\Debug
 							ProcessList[i].ProcessName = gcnew Process;
-							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Executables";
+							ProcessList[i].ProcessName->StartInfo->WorkingDirectory = "H:\\mtrn2500\\Debug";
 							ProcessList[i].ProcessName->StartInfo->FileName = ProcessList[i].ModuleName;
 							ProcessList[i].ProcessName->Start();
 							Console::WriteLine("The Process" + ProcessList[i].ModuleName + ".exe has started");

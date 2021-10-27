@@ -109,6 +109,9 @@ int main(int argc, char ** argv) {
 		delete vehicle;
 	}
 
+	while (1) {
+	}
+
 	return 0;
 }
 
@@ -184,12 +187,14 @@ void idle() {
 	
 	if (PMData->Heartbeat.Flags.OpenGL == 0) {
 		PMData->Heartbeat.Flags.OpenGL = 1;
+		printf("setting heartbeat to 1 again\n");
 	}
 	else {
 		PMData->PMDownCount++;
 	}
 	if (PMData->PMDownCount > 50) {
 		PMData->Shutdown.Status = 0xFF;
+		printf("I think PM is dead!\n");
 	}
 
 

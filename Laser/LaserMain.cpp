@@ -175,6 +175,7 @@ int main(void) {
 		//check if PM is doing its job
 		if (PMData->Heartbeat.Flags.Laser == 0) {
 			PMData->Heartbeat.Flags.Laser = 1;
+			//printf("im now 1\n");
 		}
 		else {
 			PMData->PMDownCount++;
